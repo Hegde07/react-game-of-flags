@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 function App() {
   const [country, setCountry] = useState([]);
   const [flagCountry, setFlagCountry] = useState({});
-  const [score,setScore]=useState({Total:0,Correct:0,Incorrect:0})
+  const [score, setScore] = useState({ Total: 0, Correct: 0, Incorrect: 0 });
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [selected, setSelected] = useState({});
   const generateRandomNations = () => {
     let ct = [];
     for (let i = 0; i < 4; i++) {
@@ -18,25 +20,41 @@ function App() {
     setFlagCountry(ct[index]);
   };
 
-  const nextQuestion =()=>{
-    generateRandomNations()
-  }
+  const nextQuestion = () => {
+    generateRandomNations();
+  };
 
   useEffect(() => {
     generateRandomNations();
   }, []);
   const checkAnswer = (country) => {
+    setSelected(country);
     if (country.name === flagCountry.name) {
-      setScore({...score,Correct:score.Correct+1,Total:score.Total+1})
+      setScore({
+        ...score,
+        Correct: score.Correct + 1,
+        Total: score.Total + 1,
+      });
     } else {
-      setScore({...score,Incorrect:score.Incorrect+1,Total:score.Total+1})
+      setScore({
+        ...score,
+        Incorrect: score.Incorrect + 1,
+        Total: score.Total + 1,
+      });
     }
-    nextQuestion();
+    setShowAnswer(true);
+    setTimeout(() => {
+      nextQuestion();
+      setShowAnswer(false);
+    }, 5000);
   };
   return (
     <div className="App">
       <div>
-      <h4>Correct : {score.Correct} / Incorrect : {score.Incorrect} / Total : {score.Total}</h4>
+        <h4>
+          Correct : {score.Correct} / Incorrect : {score.Incorrect} / Total :{" "}
+          {score.Total}
+        </h4>
       </div>
       {flagCountry.name ? (
         <span
@@ -47,6 +65,17 @@ function App() {
         {country.map((c) => (
           <button onClick={(e) => checkAnswer(c)}>{c.name}</button>
         ))}
+      </div>
+      <div>
+        {showAnswer ? (
+          <h3
+            className={
+              flagCountry.name === selected.name ? 'correct' : 'incorrect'
+            }
+          >
+            Correct option : {flagCountry.name}
+          </h3>
+        ) : null}
       </div>
     </div>
   );

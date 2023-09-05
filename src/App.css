@@ -8,3 +8,9 @@
 .buttons{
   margin: 4px;
 }
+.correct{
+  color: green;
+}
+.incorrect{
+  color:red
+}
