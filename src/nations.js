@@ -1,4 +1,4 @@
-[
+export default [
   { name: "Afghanistan", "alpha-2": "AF", "country-code": "004" },
   { name: "Åland Islands", "alpha-2": "AX", "country-code": "248" },
   { name: "Albania", "alpha-2": "AL", "country-code": "008" },
